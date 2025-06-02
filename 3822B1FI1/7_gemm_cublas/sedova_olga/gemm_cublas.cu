@@ -1,6 +1,7 @@
 #include "gemm_cublas.h"
 #include <cublas_v2.h>
 #include <cuda_runtime.h>
+#include <vector>
 #include <stdexcept>
 #include <iostream>
 
@@ -12,7 +13,7 @@ std::vector<float> GemmCUBLAS(const std::vector<float>& a,
     cublasHandle_t handle;
     cublasCreate(&handle);
 
-    size_t size = n * n * sizeof(float);
+    int size = n * n * sizeof(float);
     std::vector<float> c(n * n);
 
     float *d_a = nullptr, *d_b = nullptr, *d_c = nullptr, *d_ct = nullptr;
@@ -47,11 +48,11 @@ std::vector<float> GemmCUBLAS(const std::vector<float>& a,
 
     cublasGetMatrix(n, n, sizeof(float), d_ct, n, c.data(), n));
 
+    cublasDestroy(handle);
     cudaFree(d_a);
     cudaFree(d_b);
     cudaFree(d_c);
     cudaFree(d_ct);
-    cublasDestroy(handle);
 
     return c;
 }
