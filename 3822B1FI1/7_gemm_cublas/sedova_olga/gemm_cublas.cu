@@ -31,7 +31,8 @@ std::vector<float> GemmCUBLAS(const std::vector<float>& a,
 
     cublasSgemm(handle, CUBLAS_OP_T, CUBLAS_OP_T, n, n, n, &alpha, d_a, n, d_b, n, &beta, d_c, n);
     cublasSgemm(handle, CUBLAS_OP_T, CUBLAS_OP_N, n, n, &alpha, d_c, n, &beta, nullptr, n, d_ct, n);
-    cublasGetMatrix(n, n, sizeof(float), d_ct, n, c.data(), n));
+
+    cublasGetMatrix(n, n, sizeof(float), d_ct, n, c.data(), n);
 
     cublasDestroy(handle);
     cudaFree(d_a);
