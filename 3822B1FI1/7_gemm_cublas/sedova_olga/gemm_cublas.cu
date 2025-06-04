@@ -9,8 +9,7 @@ std::vector<float> GemmCUBLAS(const std::vector<float>& a,
     std::vector<float> c(n * n);
     int size = n * n * sizeof(float);
 
-    float* d_a, d_b, d_c;
-    float *d_ct;
+    float *d_a, *d_b, *d_c, *d_ct;
 
     cudaMalloc(&d_a, size);
     cudaMalloc(&d_b, size);
